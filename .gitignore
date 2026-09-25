@@ -1,0 +1,12 @@
+# Track only the files needed to run and view this homework.
+/*
+!/.gitignore
+!/README.md
+!/requirements.txt
+!/bayes_height_weight.ipynb
+!/pattern_recognition_homework_dataset.xlsx
+!/results/
+
+.ipynb_checkpoints/
+__pycache__/
+~$*
