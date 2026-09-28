@@ -1,28 +1,28 @@
-# UESTC模式识别作业：基于身高、体重的最小错误率贝叶斯分类器设计
+# Pattern Recognition Assignment: Design of a Minimum Error Rate Bayesian Classifier Based on Height and Weight
 
-使用身高（cm）和体重（kg）两项特征，完成参数估计、概率密度绘图、男女分类和交互预测。
+Using the two features of height (cm) and weight (kg), complete parameter estimation, probability density plotting, male-female classification, and interactive prediction.
 
-## 查看与运行
+## Viewing and Running
 
-`bayes_height_weight.ipynb` 包含完整步骤、公式、图表、测试结果和交互输入。全部结果在 Notebook 内展示。
+`bayes_height_weight.ipynb` contains the complete steps, formulas, charts, test results, and interactive input. All results are displayed within the Notebook.
 
-交互输入需在运行中的Notebook 内使用。
+Interactive input must be used within a running Notebook.
 
-## 实现内容
+## Implementation Contents
 
-1. 读取 Excel，排除非法、无效或极端数值的样本，得到共计得到1266条样本。
-2. 按类别以约 80% / 20% 划分训练集和测试集（可修改）。
-3. 分别绘制男女生身高、体重直方图，以最大似然估计和贝叶斯估计计算并展示一维正态概率密度。
-4. 使用最大似然估计得到的二维均值和完整协方差构建分类器，依据最小错误率贝叶斯决策分类。
-5. 展示决策区域、测试结果与可交互样本预测。
+1. Read the Excel file, exclude samples with illegal, invalid, or extreme values, resulting in a total of 1266 samples.
+2. Split the training set and test set by category at approximately 80% / 20% (modifiable).
+3. Plot the height and weight histograms for males and females separately, and calculate and display the one-dimensional normal probability density using maximum likelihood estimation and Bayesian estimation.
+4. Use the two-dimensional mean and full covariance obtained by maximum likelihood estimation to construct a classifier, and classify according to the minimum error rate Bayesian decision rule.
+5. Display the decision regions, test results, and interactive sample prediction.
 
-## 首次安装环境
+## First-Time Environment Setup
 
-使用独立 `.venv` 环境，建议使用 Python 3.10。在本目录执行：
+Use an independent `.venv` environment; Python 3.10 is recommended. Execute in this directory:
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
-数据文件 `pattern_recognition_homework_dataset.xlsx` 需要与 Notebook 保持在同一目录。
+The data file `pattern_recognition_homework_dataset.xlsx` needs to be kept in the same directory as the Notebook.
