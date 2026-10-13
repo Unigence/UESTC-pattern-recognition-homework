@@ -4,8 +4,21 @@
 !/README.md
 !/requirements.txt
 !/bayes_height_weight.ipynb
+!/mlp_svm_gender.ipynb
 !/pattern_recognition_homework_dataset.xlsx
 !/results/
+!/report/
+/report/*
+!/report/模式识别第二次作业-实验报告.docx
+!/report/模式识别第二次作业-实验报告.pdf
+!/report/homework2_report.md
+!/report/README.md
+!/tools/
+/tools/*
+!/tools/build_homework2_notebook.py
+!/tools/run_homework2_notebook.py
+!/tools/build_homework2_report.py
+!/tools/homework2_mathtype.ps1
 
 .ipynb_checkpoints/
 __pycache__/

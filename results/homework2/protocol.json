@@ -1,0 +1,295 @@
+{
+  "assignment": 2,
+  "seed": 23,
+  "features": [
+    "身高(cm)",
+    "体重(kg)",
+    "鞋码",
+    "50米成绩"
+  ],
+  "positive_class": 1,
+  "outer_folds": 5,
+  "inner_folds": 5,
+  "splitter": "StratifiedKFold(shuffle=True)",
+  "inner_seed": "SEED + outer_fold",
+  "model_seed": "SEED + 100 * outer_fold + inner_fold (outer refit: inner_fold=0)",
+  "quality_bounds": {
+    "身高(cm)": [
+      130,
+      220
+    ],
+    "体重(kg)": [
+      30,
+      200
+    ],
+    "鞋码": [
+      30,
+      50
+    ],
+    "50米成绩": [
+      5,
+      20
+    ]
+  },
+  "drop": "invalid label or all four features missing",
+  "missing": "training-partition median",
+  "scaling": "training-partition StandardScaler(ddof=0)",
+  "selection_metric": "mean inner-fold ROC AUC",
+  "tie_break": "first candidate in fixed grid",
+  "report": "mean and sample SD (ddof=1) over outer folds",
+  "thresholds": {
+    "MLP-BP": 0.5,
+    "SVM": 0.0
+  },
+  "MLP": {
+    "architecture": [
+      4,
+      3,
+      1
+    ],
+    "hidden": "tanh",
+    "output": "sigmoid",
+    "loss": "mean BCE + alpha/2 * sum(weight squared)",
+    "optimizer": "manual full-batch Adam",
+    "epochs": 800,
+    "grid": [
+      {
+        "alpha": 0.0,
+        "learning_rate": 0.01
+      },
+      {
+        "alpha": 0.0,
+        "learning_rate": 0.03
+      },
+      {
+        "alpha": 0.001,
+        "learning_rate": 0.01
+      },
+      {
+        "alpha": 0.001,
+        "learning_rate": 0.03
+      },
+      {
+        "alpha": 0.01,
+        "learning_rate": 0.01
+      },
+      {
+        "alpha": 0.01,
+        "learning_rate": 0.03
+      }
+    ],
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "epsilon": 1e-08
+  },
+  "SVM": {
+    "grids": {
+      "linear": [
+        {
+          "kernel": "linear",
+          "C": 0.1
+        },
+        {
+          "kernel": "linear",
+          "C": 1.0
+        },
+        {
+          "kernel": "linear",
+          "C": 10.0
+        }
+      ],
+      "rbf": [
+        {
+          "kernel": "rbf",
+          "C": 0.1,
+          "gamma": 0.1
+        },
+        {
+          "kernel": "rbf",
+          "C": 0.1,
+          "gamma": 0.25
+        },
+        {
+          "kernel": "rbf",
+          "C": 0.1,
+          "gamma": 1.0
+        },
+        {
+          "kernel": "rbf",
+          "C": 1.0,
+          "gamma": 0.1
+        },
+        {
+          "kernel": "rbf",
+          "C": 1.0,
+          "gamma": 0.25
+        },
+        {
+          "kernel": "rbf",
+          "C": 1.0,
+          "gamma": 1.0
+        },
+        {
+          "kernel": "rbf",
+          "C": 10.0,
+          "gamma": 0.1
+        },
+        {
+          "kernel": "rbf",
+          "C": 10.0,
+          "gamma": 0.25
+        },
+        {
+          "kernel": "rbf",
+          "C": 10.0,
+          "gamma": 1.0
+        }
+      ],
+      "poly": [
+        {
+          "kernel": "poly",
+          "C": 0.1,
+          "gamma": 0.1,
+          "degree": 3,
+          "coef0": 1.0
+        },
+        {
+          "kernel": "poly",
+          "C": 0.1,
+          "gamma": 0.25,
+          "degree": 3,
+          "coef0": 1.0
+        },
+        {
+          "kernel": "poly",
+          "C": 0.1,
+          "gamma": 1.0,
+          "degree": 3,
+          "coef0": 1.0
+        },
+        {
+          "kernel": "poly",
+          "C": 1.0,
+          "gamma": 0.1,
+          "degree": 3,
+          "coef0": 1.0
+        },
+        {
+          "kernel": "poly",
+          "C": 1.0,
+          "gamma": 0.25,
+          "degree": 3,
+          "coef0": 1.0
+        },
+        {
+          "kernel": "poly",
+          "C": 1.0,
+          "gamma": 1.0,
+          "degree": 3,
+          "coef0": 1.0
+        },
+        {
+          "kernel": "poly",
+          "C": 10.0,
+          "gamma": 0.1,
+          "degree": 3,
+          "coef0": 1.0
+        },
+        {
+          "kernel": "poly",
+          "C": 10.0,
+          "gamma": 0.25,
+          "degree": 3,
+          "coef0": 1.0
+        },
+        {
+          "kernel": "poly",
+          "C": 10.0,
+          "gamma": 1.0,
+          "degree": 3,
+          "coef0": 1.0
+        }
+      ],
+      "sigmoid": [
+        {
+          "kernel": "sigmoid",
+          "C": 0.1,
+          "gamma": 0.1,
+          "coef0": 0.0
+        },
+        {
+          "kernel": "sigmoid",
+          "C": 0.1,
+          "gamma": 0.25,
+          "coef0": 0.0
+        },
+        {
+          "kernel": "sigmoid",
+          "C": 0.1,
+          "gamma": 1.0,
+          "coef0": 0.0
+        },
+        {
+          "kernel": "sigmoid",
+          "C": 1.0,
+          "gamma": 0.1,
+          "coef0": 0.0
+        },
+        {
+          "kernel": "sigmoid",
+          "C": 1.0,
+          "gamma": 0.25,
+          "coef0": 0.0
+        },
+        {
+          "kernel": "sigmoid",
+          "C": 1.0,
+          "gamma": 1.0,
+          "coef0": 0.0
+        },
+        {
+          "kernel": "sigmoid",
+          "C": 10.0,
+          "gamma": 0.1,
+          "coef0": 0.0
+        },
+        {
+          "kernel": "sigmoid",
+          "C": 10.0,
+          "gamma": 0.25,
+          "coef0": 0.0
+        },
+        {
+          "kernel": "sigmoid",
+          "C": 10.0,
+          "gamma": 1.0,
+          "coef0": 0.0
+        }
+      ]
+    },
+    "class_weight": null,
+    "probability": false,
+    "tol": 0.001,
+    "max_iter": -1
+  },
+  "data_sha256": "827c405799d6d7e36c6b249043a4c9564933480f0e29a9d7a0cad42770fdb30d",
+  "data_audit": {
+    "raw_n": 1280,
+    "invalid_label_n": 5,
+    "valid_label_all_features_missing_n": 1,
+    "retained_n": 1274,
+    "female_n": 256,
+    "male_n": 1018,
+    "retained_any_missing_n": 20,
+    "duplicate_identifier_n": 0,
+    "repeated_feature_label_rows_n": 35
+  },
+  "versions": {
+    "python": "3.10.19",
+    "numpy": "2.2.6",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.7.2",
+    "scipy": "1.15.3",
+    "matplotlib": "3.10.9"
+  }
+}

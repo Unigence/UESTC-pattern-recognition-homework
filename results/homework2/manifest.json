@@ -1,0 +1,48 @@
+{
+  "tables": [
+    "data_quality.csv",
+    "error_group_feature_means.csv",
+    "error_overlap.csv",
+    "feature_summary.csv",
+    "fold_assignments.csv",
+    "fold_counts.csv",
+    "fold_metrics.csv",
+    "gradient_check.csv",
+    "inner_search.csv",
+    "mean_roc.csv",
+    "metrics_summary.csv",
+    "metrics_summary_formatted.csv",
+    "misclassified_samples.csv",
+    "mlp_loss_history.csv",
+    "oof_predictions.csv",
+    "paired_metric_differences.csv",
+    "selected_parameters.csv",
+    "train_metrics.csv",
+    "tsne_coordinates.csv"
+  ],
+  "figures": [
+    "all_confusion_matrices.png",
+    "all_confusion_matrices.svg",
+    "feature_distributions.png",
+    "feature_distributions.svg",
+    "main_confusion_matrices.png",
+    "main_confusion_matrices.svg",
+    "mean_roc_curves.png",
+    "mean_roc_curves.svg",
+    "mlp_training_loss.png",
+    "mlp_training_loss.svg",
+    "paired_fold_metrics.png",
+    "paired_fold_metrics.svg",
+    "svm_kernel_metrics.png",
+    "svm_kernel_metrics.svg",
+    "tsne_errors.png",
+    "tsne_errors.svg"
+  ],
+  "checks": {
+    "gradient_check": "passed",
+    "five_folds_shared": "passed",
+    "one_OOF_prediction_per_model_sample": "passed",
+    "architecture_4_3_1": "passed",
+    "finite_metrics_in_0_1": "passed"
+  }
+}

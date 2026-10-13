@@ -1,0 +1,11 @@
+{
+  "raw_n": 1280,
+  "invalid_label_n": 5,
+  "valid_label_all_features_missing_n": 1,
+  "retained_n": 1274,
+  "female_n": 256,
+  "male_n": 1018,
+  "retained_any_missing_n": 20,
+  "duplicate_identifier_n": 0,
+  "repeated_feature_label_rows_n": 35
+}

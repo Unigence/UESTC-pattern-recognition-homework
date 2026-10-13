@@ -1,0 +1,95 @@
+{
+  "main_models": [
+    "MLP-BP",
+    "SVM-selected"
+  ],
+  "svm_selected_kernel_counts": {
+    "rbf": 5
+  },
+  "SVM_minus_MLP_mean": {
+    "SE": 0.0019607843137254832,
+    "SP": -0.015686274509803866,
+    "ACC": -0.0015748031496061188,
+    "AUC": 0.0011562070087304255
+  },
+  "paired_SVM_wins": {
+    "SE": 1,
+    "SP": 1,
+    "ACC": 1,
+    "AUC": 2
+  },
+  "paired_ties": {
+    "SE": 4,
+    "SP": 1,
+    "ACC": 1,
+    "AUC": 0
+  },
+  "both_wrong": 26,
+  "only_MLP_wrong": 4,
+  "only_SVM_wrong": 6,
+  "both_correct": 1238,
+  "confusion_matrices": {
+    "MLP-BP": [
+      [
+        242,
+        14
+      ],
+      [
+        16,
+        1002
+      ]
+    ],
+    "SVM-linear": [
+      [
+        241,
+        15
+      ],
+      [
+        15,
+        1003
+      ]
+    ],
+    "SVM-rbf": [
+      [
+        238,
+        18
+      ],
+      [
+        14,
+        1004
+      ]
+    ],
+    "SVM-poly": [
+      [
+        240,
+        16
+      ],
+      [
+        17,
+        1001
+      ]
+    ],
+    "SVM-sigmoid": [
+      [
+        237,
+        19
+      ],
+      [
+        19,
+        999
+      ]
+    ],
+    "SVM-selected": [
+      [
+        238,
+        18
+      ],
+      [
+        14,
+        1004
+      ]
+    ]
+  },
+  "gradient_max_absolute_error": 1.717392200673018e-11,
+  "gradient_max_relative_error": 4.786756291981024e-10
+}
