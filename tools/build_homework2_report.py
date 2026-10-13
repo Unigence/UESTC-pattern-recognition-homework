@@ -216,6 +216,7 @@ def main():
                 p.alignment = WD_ALIGN_PARAGRAPH.LEFT
                 p.paragraph_format.line_spacing = Pt(15)
                 p.paragraph_format.space_after = Pt(6)
+                p.paragraph_format.keep_with_next = True
             if line.endswith('：'):
                 p.paragraph_format.keep_with_next = True
             text_runs(p, line, 10.5 if line.startswith('[') else 12)
