@@ -47,6 +47,96 @@ def pformat(p, indent=True):
     pf.widow_control = True
     p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
 
+def fix_cover_fields(body):
+    """Replace the inherited cover's space-based lines with fixed cell borders."""
+    def paragraph_text(node):
+        return ''.join(text.text or '' for text in node.iter(qn('w:t')))
+
+    nodes = list(body)
+    start = next((i for i, node in enumerate(nodes)
+                  if node.tag == qn('w:p') and paragraph_text(node).startswith('课程名称：')), None)
+    if start is None:
+        return False  # Already converted, or the simplified cover has no fields.
+    originals = nodes[start:start + 8]
+    lines = [paragraph_text(node) for node in originals]
+    expected = ['课程名称：', '学院：', '专业：', '学号：', '姓名：', '职责分工', '', '指导老师：']
+    if len(originals) != 8 or any(node.tag != qn('w:p') for node in originals):
+        raise ValueError('Unexpected cover field structure; refusing to replace it.')
+    for line, prefix in zip(lines, expected):
+        if prefix and not line.startswith(prefix):
+            raise ValueError('Unexpected cover label: ' + line)
+    if any(node.find('.//' + qn('w:object')) is not None or
+           node.find('.//' + qn('w:drawing')) is not None for node in originals):
+        raise ValueError('Cover fields contain embedded content.')
+
+    cover = Document()
+    fields = cover.add_table(rows=8, cols=2)
+    fields.autofit = False
+    fields.alignment = WD_TABLE_ALIGNMENT.LEFT
+    widths = [100, 246]  # points; a 36-point indent retains the cover's left edge.
+    for column, width in zip(fields.columns, widths):
+        column.width = Pt(width)
+    props = fields._tbl.tblPr
+    props.find(qn('w:tblW')).set(qn('w:w'), str(sum(widths) * 20))
+    props.find(qn('w:tblW')).set(qn('w:type'), 'dxa')
+    indent = OxmlElement('w:tblInd')
+    indent.set(qn('w:w'), '720')
+    indent.set(qn('w:type'), 'dxa')
+    props.insert_element_before(indent, 'w:tblBorders', 'w:shd', 'w:tblLayout', 'w:tblCellMar', 'w:tblLook')
+    borders = OxmlElement('w:tblBorders')
+    for edge in ['top', 'left', 'bottom', 'right', 'insideH', 'insideV']:
+        border = OxmlElement('w:' + edge)
+        border.set(qn('w:val'), 'nil')
+        borders.append(border)
+    props.insert_element_before(borders, 'w:shd', 'w:tblLayout', 'w:tblCellMar', 'w:tblLook')
+    margins = OxmlElement('w:tblCellMar')
+    for edge in ['top', 'left', 'bottom', 'right']:
+        margin = OxmlElement('w:' + edge)
+        margin.set(qn('w:w'), '0')
+        margin.set(qn('w:type'), 'dxa')
+        margins.append(margin)
+    props.insert_element_before(margins, 'w:tblLook')
+
+    def cell_text(cell, value, *, label=False, size=18):
+        cell.vertical_alignment = WD_CELL_VERTICAL_ALIGNMENT.CENTER
+        p = cell.paragraphs[0]
+        p.alignment = WD_ALIGN_PARAGRAPH.LEFT if label else WD_ALIGN_PARAGRAPH.CENTER
+        pf = p.paragraph_format
+        pf.first_line_indent = Pt(0)
+        pf.left_indent = pf.right_indent = Pt(0)
+        pf.space_before = pf.space_after = Pt(0)
+        pf.line_spacing_rule = WD_LINE_SPACING.EXACTLY
+        pf.line_spacing = Pt(23.5)
+        pf.keep_with_next = True
+        run = p.add_run(value)
+        font(run, size, label, 'SimHei')
+        run.font.name = 'SimHei'
+        run.font.underline = False
+
+    for i, row in enumerate(fields.rows):
+        row._tr.get_or_add_trPr().append(OxmlElement('w:cantSplit'))
+        for cell, width in zip(row.cells, widths):
+            cell.width = Pt(width)
+        if i == 5:
+            # Keep the full original instruction; its blank is on the next row.
+            cell_text(row.cells[0].merge(row.cells[1]), lines[i].strip(), label=True)
+            continue
+        label, value = ('', lines[i].strip()) if i == 6 else lines[i].split('：', 1)
+        cell_text(row.cells[0], label + '：' if label else '', label=True)
+        cell_text(row.cells[1], value.strip(), size=16 if i in [0, 7] else 18)
+        cell_borders = OxmlElement('w:tcBorders')
+        bottom = OxmlElement('w:bottom')
+        for key, value in [('val', 'single'), ('sz', '6'), ('color', '000000')]:
+            bottom.set(qn('w:' + key), value)
+        cell_borders.append(bottom)
+        row.cells[1]._tc.get_or_add_tcPr().insert_element_before(
+            cell_borders, 'w:shd', 'w:noWrap', 'w:tcMar', 'w:textDirection', 'w:tcFitText', 'w:vAlign')
+
+    body.insert(start, fields._tbl)
+    for node in originals:
+        body.remove(node)
+    return True
+
 def table(doc, lines, keep_with_note=False):
     rows = [[s.strip() for s in line.strip().strip('|').split('|')] for line in lines]
     rows = [r for r in rows if not all(re.fullmatch(r':?-+:?', x) for x in r)]
@@ -121,6 +211,7 @@ def main():
         doc.styles.element[:] = [deepcopy(node) for node in old.styles.element]
         for p in old.paragraphs[:22]:
             doc._body._body.insert(len(doc._body._body) - 1, deepcopy(p._p))
+        fix_cover_fields(doc._body._body)
     else:
         for text in ['电子科技大学 自动化工程学院', '标准实验报告', '模式识别与机器学习', '第二次作业']:
             p = doc.add_paragraph(text)
